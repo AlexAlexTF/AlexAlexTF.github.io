@@ -47,9 +47,13 @@
 			border-radius: 40px;
 			margin-bottom: 20px;
 			object-fit: cover;
-			margin: 10px;
-			display: inline-block;
 		}
+
+		.image-group {
+			display: flex;
+			justify-content: center;
+			gap: 20px; 
+			margin-bottom: 25px;
 		
 		.bio-title {
 			font-size: 20px;
@@ -94,9 +98,12 @@
 		<p class="image-title">My images</p> 
 		<img src="20250628_124822.jpg" class="waterfall">
 		<img src="20250628_130441.jpg" class="river">
+		<div class="image-group">
+			<img src="20250628_124822.jpg" class="waterfall">
+			<img src="20250628_130441.jpg" class="river">
+		</div>
 
 		<p class="bio-title">Bio</p>
-
 		<p class="bio-description">My name is Alexander Lor. I am 19 years old. I am pursing a degree in Computer Information Systems </p>
 
 		<p class="favorites-title">My Favorite Sports, Movies, & TV Shows</p>
