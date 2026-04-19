@@ -145,7 +145,103 @@
 	
 
 	
+	<div id="weather-app" style="text-align: center; margin-top: 20px;">
+    <form id="nameForm">
+        <input type="text" id="nameInput" placeholder="Enter your name" required>
+        <button type="submit">Save Name</button>
+    </form>
+
+		<h2 id="greetingDisplay"></h2>
+		<p id="lastVisitDisplay"></p>
+	</div>
+		
 	<script>
+			      
+		function mapWeatherCodeToDescription(code) {
+			const weatherDescriptions = {
+				0: 'clear sky',
+				1: 'mainly clear',
+				2: 'partly cloudy',
+				3: 'overcast',
+				45: 'fog',
+				51: 'light drizzle',
+				61: 'slight rain',
+				71: 'slight snow'
+			};
+			return weatherDescriptions[code] || 'unknown';
+		}
+
+		
+		function getCurrentDateTime() {
+			const now = new Date();
+			const options = { timeZone: 'America/New_York', hour12: true };
+			
+			const time = now.toLocaleTimeString('en-US', { ...options, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+			const date = now.toLocaleDateString('en-US', { ...options, year: 'numeric', month: '2-digit', day: '2-digit' });
+			const hour = now.getHours();
+
+			let greeting = "Good evening";
+			if (hour < 12) greeting = "Good morning";
+			else if (hour < 18) greeting = "Good afternoon";
+
+			return { time, date, greeting };
+		}
+   
+		
+		async function fetchWeather() {
+			try {
+				const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=42.3314&longitude=-83.0458&current_weather=true');
+				const data = await response.json();
+				return mapWeatherCodeToDescription(data.current_weather.weathercode);
+			} catch (error) {
+				return "unable to load weather";
+			}
+		}
+
+		
+		async function initApp() {
+			const nameForm = document.getElementById('nameForm');
+			const nameInput = document.getElementById('nameInput');
+			const greetingDisplay = document.getElementById('greetingDisplay');
+			const lastVisitDisplay = document.getElementById('lastVisitDisplay');
+
+			let userName = localStorage.getItem('userName');
+			let lastVisit = localStorage.getItem('lastVisit');
+			let weatherDescription = await fetchWeather();
+
+			
+			if (lastVisit) {
+				lastVisitDisplay.innerText = `Btw, you last visited on ${lastVisit}`;
+			}
+
+			
+			const currentVisitTime = `${getCurrentDateTime().date} at ${getCurrentDateTime().time} EST`;
+			localStorage.setItem('lastVisit', currentVisitTime);
+
+			
+			function updateWelcomeMessage() {
+				const info = getCurrentDateTime();
+				if (userName) {
+					nameForm.style.display = 'none'; 
+					greetingDisplay.innerText = `${info.greeting} ${userName}! It's ${info.time} EST on ${info.date}, and it's ${weatherDescription} right now.`;
+				}
+			}
+
+			
+			nameForm.addEventListener('submit', (event) => {
+				event.preventDefault();
+				userName = nameInput.value;
+				localStorage.setItem('userName', userName);
+				updateWelcomeMessage();
+			});
+
+			
+			setInterval(updateWelcomeMessage, 1000);
+			updateWelcomeMessage();
+		}
+
+		
+		initApp();	
 		
 	</script>	
 	</body>
