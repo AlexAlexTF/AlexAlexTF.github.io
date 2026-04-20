@@ -113,24 +113,24 @@
 	</style>
 	</head>
 	<body>
-		`Personal Home Page title and clickable link that leads to second webpage`
+		
 		<p class="title">Personal Home Page</p>
 		<p class="link"> <a href="interests.html">Interests</a></p>
 
-		`Images of waterfall and river`
+		
 		<p class="image-title">My images</p> 
 		<img src="20250628_124822.jpg" class="waterfall">
 		<img src="20250628_130441.jpg" class="river">
 		
-		`Bio title and description`
+		
 		<p class="bio-title">Bio</p>
 		<p class="bio-description">My name is Alexander Lor. I am 19 years old. I am pursing a degree in Computer Information Systems. I love traveling and hiking</p>
 		
-		`Favorite media title and text`
+		
 		<p class="favorites-title">My Favorite Sports, Movies, & TV Shows</p>
 		<p class="favorite-text">This is a list of some of my favorite sports, movies, and shows</p>
 	
-		`Table that lists favorite medias and links that pop up a new tab`
+		
 		<table>
 	  <tr>
 		<th>Category</th>
@@ -154,7 +154,7 @@
 
 
 
-	`Displays infomation on webpage, like the greeting screen and form to fill out your name`
+	
 	<div id="weather-app" style="text-align: center; margin-top: 20px;">
 	<form id="nameForm">
 		<input type="text" id="nameInput" placeholder="Enter your name" required>
@@ -180,7 +180,7 @@
 		};
 		return weatherDescriptions[code] || 'unknown';
 	}
-
+	
 	/*Formats the current time and date of EST and returns a specific greeting based on time*/
 	function getCurrentDateTime() {
 		const now = new Date();
@@ -189,14 +189,14 @@
 		const time = now.toLocaleTimeString('en-US', { ...options, hour: '2-digit', minute: '2-digit', second: '2-digit' });
 		const date = now.toLocaleDateString('en-US', { ...options, year: 'numeric', month: '2-digit', day: '2-digit' });
 		const hour = now.getHours();
-
+	
 		let greeting = "Good evening";
 		if (hour < 12) greeting = "Good morning";
 		else if (hour < 18) greeting = "Good afternoon";
-
+	
 		return { time, date, greeting };
 	}
-
+	
 	/*Connects to Open-Metro API to get the current weatherforecast in Detroit*/
 	async function fetchWeather() {
 		try {
@@ -207,7 +207,7 @@
 			return "unable to load weather";
 		}
 	}
-
+	
 	/*Captures HTML elements for user input and data display*/
 	async function initApp() {
 		const nameForm = document.getElementById('nameForm');
@@ -219,16 +219,16 @@
 		let userName = localStorage.getItem('userName');
 		let lastVisit = localStorage.getItem('lastVisit');
 		let weatherDescription = await fetchWeather();
-
+	
 		/*Fetches live data and displays the message 'last visited' if data exists*/
 		if (lastVisit) {
 			lastVisitDisplay.innerText = `Btw, you last visited on ${lastVisit}`;
 		}
-
+	
 		
 		const currentVisitTime = `${getCurrentDateTime().date} at ${getCurrentDateTime().time} EST`;
 		localStorage.setItem('lastVisit', currentVisitTime);
-
+	
 		/*Takes the user's inputted name, current weather, time and date to build a greeting string*/
 		function updateWelcomeMessage() {
 			const info = getCurrentDateTime();
@@ -237,7 +237,7 @@
 				greetingDisplay.innerText = `${info.greeting} ${userName}! It's ${info.time} EST on ${info.date}, and it's ${weatherDescription} right now.`;
 			}
 		}
-
+	
 		/*Saves the user's name to localStorage and sets a 1 second interval to keep the clock updated in real-time*/
 		nameForm.addEventListener('submit', (event) => {
 			event.preventDefault();
@@ -245,12 +245,12 @@
 			localStorage.setItem('userName', userName);
 			updateWelcomeMessage();
 		});
-
+	
 		
 		setInterval(updateWelcomeMessage, 1000);
 		updateWelcomeMessage();
 	}
-
+	
 		/*Starts app logic on page load*/
 		initApp();
 		
