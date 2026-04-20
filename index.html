@@ -13,6 +13,7 @@
 			font-weight: bold;
 			text-align: center;
 			margin-top: 10px;
+			font-family: serif;
 			
 		}
 		/*Interest link that leads to next webpage*/
@@ -22,6 +23,7 @@
 			border-bottom: 2px dotted black;
 			padding-bottom: 30px;
 			cursor: pointer;
+			font-family: serif;
 			
 		}
 		/*removes underline and make link same color as text*/
@@ -38,6 +40,7 @@
 			font-size: 20px;
 			font-weight: bold;
 			text-align: center;
+			font-family: serif;
 			
 			
 			
@@ -72,6 +75,7 @@
 			margin-top: 10px;
 			border-bottom: 2px dotted black;
 			padding-bottom: 25px;
+			font-family: serif;
 			
 
 		}
@@ -80,6 +84,7 @@
 			text-align: center;
 			border-bottom: 2px dotted black; 
 			padding-bottom: 15px;
+			font-family: serif;
 			
 
 		}
@@ -90,18 +95,20 @@
 			font-weight: bold;
 			border-bottom: 2px dotted black;
 			margin-bottom: 10px;
+			font-family: serif;
 			
 		}
 		/*Text of favorite media*/
 		.favorite-text {
 			text-align: center;
+			font-family: serif;
 			
 		}
 		
 		table {
 			margin: 20px auto;
 			border-collapse: collapse;
-			width: 50%
+			width: 50%;
 			text-align: left;
 		}
 
@@ -117,6 +124,7 @@
 		<p class="title">Personal Home Page</p>
 		<p class="link"> <a href="interests.html">Interests</a></p>
 
+		
 		
 		<p class="image-title">My images</p> 
 		<img src="20250628_124822.jpg" class="waterfall">
@@ -142,11 +150,11 @@
 	  </tr>
 	  <tr>
 		<td>Movies</td>
-		<td><a href="https://www.imdb.com/title/tt2582802/"target="_blank" rel="noopener noreferrer">Whiplash</a>, <a <a href="https://www.imdb.com/title/tt1160419/"target="_blank" rel="noopener noreferrer">Dune</a></td>
+		<td><a href="https://www.imdb.com/title/tt2582802/" "target="_blank" rel="noopener noreferrer">Whiplash</a>, <a href="https://www.imdb.com/title/tt1160419/"target="_blank" rel="noopener noreferrer">Dune</a></td>
 	  </tr>
 	<tr>
 		<td>TV Shows</td>
-		<td><a <a href="https://www.imdb.com/title/tt2359704/"target="_blank" rel="noopener noreferrer">Jojo's</a>, <a <a href="https://www.imdb.com/title/tt3322312/"target="_blank" rel="noopener noreferrer">Daredevil</a></td>
+		<td><a href="https://www.imdb.com/title/tt2359704/" "target="_blank" rel="noopener noreferrer">Jojo's</a>, <a href="https://www.imdb.com/title/tt3322312/"target="_blank" rel="noopener noreferrer">Daredevil</a></td>
 	</tr>
 	</table>
 
@@ -180,7 +188,7 @@
 		};
 		return weatherDescriptions[code] || 'unknown';
 	}
-	
+
 	/*Formats the current time and date of EST and returns a specific greeting based on time*/
 	function getCurrentDateTime() {
 		const now = new Date();
@@ -189,14 +197,14 @@
 		const time = now.toLocaleTimeString('en-US', { ...options, hour: '2-digit', minute: '2-digit', second: '2-digit' });
 		const date = now.toLocaleDateString('en-US', { ...options, year: 'numeric', month: '2-digit', day: '2-digit' });
 		const hour = now.getHours();
-	
+
 		let greeting = "Good evening";
 		if (hour < 12) greeting = "Good morning";
 		else if (hour < 18) greeting = "Good afternoon";
-	
+
 		return { time, date, greeting };
 	}
-	
+
 	/*Connects to Open-Metro API to get the current weatherforecast in Detroit*/
 	async function fetchWeather() {
 		try {
@@ -207,7 +215,7 @@
 			return "unable to load weather";
 		}
 	}
-	
+
 	/*Captures HTML elements for user input and data display*/
 	async function initApp() {
 		const nameForm = document.getElementById('nameForm');
@@ -219,16 +227,16 @@
 		let userName = localStorage.getItem('userName');
 		let lastVisit = localStorage.getItem('lastVisit');
 		let weatherDescription = await fetchWeather();
-	
+
 		/*Fetches live data and displays the message 'last visited' if data exists*/
 		if (lastVisit) {
 			lastVisitDisplay.innerText = `Btw, you last visited on ${lastVisit}`;
 		}
-	
+
 		
 		const currentVisitTime = `${getCurrentDateTime().date} at ${getCurrentDateTime().time} EST`;
 		localStorage.setItem('lastVisit', currentVisitTime);
-	
+
 		/*Takes the user's inputted name, current weather, time and date to build a greeting string*/
 		function updateWelcomeMessage() {
 			const info = getCurrentDateTime();
@@ -237,7 +245,7 @@
 				greetingDisplay.innerText = `${info.greeting} ${userName}! It's ${info.time} EST on ${info.date}, and it's ${weatherDescription} right now.`;
 			}
 		}
-	
+
 		/*Saves the user's name to localStorage and sets a 1 second interval to keep the clock updated in real-time*/
 		nameForm.addEventListener('submit', (event) => {
 			event.preventDefault();
@@ -245,12 +253,12 @@
 			localStorage.setItem('userName', userName);
 			updateWelcomeMessage();
 		});
-	
+
 		
 		setInterval(updateWelcomeMessage, 1000);
 		updateWelcomeMessage();
 	}
-	
+
 		/*Starts app logic on page load*/
 		initApp();
 		
